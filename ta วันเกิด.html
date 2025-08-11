@@ -1,0 +1,108 @@
+
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>สุขสันต์วันเกิดน้องขวัญเพื่อนรัก!!</title>
+  <style>
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background: linear-gradient(180deg,#fff7e6,#ffe6f2);
+      font-family: "Segoe UI", Roboto, "Noto Sans Thai", sans-serif;
+      overflow:hidden;
+      text-align:center;
+      padding:2rem;
+    }
+    .card{
+      background: rgba(255,255,255,0.8);
+      padding:2.2rem;
+      border-radius:18px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      transform: translateY(0);
+    }
+    h1{ font-size:2.2rem; margin:0 0 .5rem; color:#3b1f6b; }
+    p{ margin:0 0 1rem; color:#333; }
+    .cake{
+      width:120px; height:120px; margin:0 auto 1rem;
+      background: linear-gradient(#ffd2a6,#ff9a6b);
+      border-radius:14px;
+      position:relative;
+      box-shadow: inset 0 -6px 10px rgba(0,0,0,0.06);
+    }
+    .flame{
+      position:absolute; left:50%; transform:translateX(-50%);
+      top:-22px; width:18px; height:28px; border-radius:50% 50% 40% 40%;
+      background: radial-gradient(circle at 35% 30%, #fff19a, #ffcc33 40%, #ff7a00 70%);
+      animation: flicker 0.12s infinite;
+    }
+    @keyframes flicker{
+      0%{ transform:translateX(-50%) scale(1); opacity:1;}
+      50%{ transform:translateX(-50%) scale(0.92); opacity:.85;}
+      100%{ transform:translateX(-50%) scale(1); opacity:1;}
+    }
+    button{
+      background:#7b4be0; color:white; border:none; padding:.6rem 1rem; border-radius:10px;
+      cursor:pointer; font-weight:600;
+    }
+    .confetti { position:fixed; pointer-events:none; left:0; top:0; width:100%; height:100%; overflow:visible; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="cake"><div class="flame"></div></div>
+    <h1>แฮปปี้เบิร์ดเดย์น้องขวัญก๋องจุ๋นเพื่อนรัก!</h1>
+    <p>ขอให้สมปรารถนา สุขภาพแข็งแรง และเจอแต่ความสุข ฉันจะบูลี่เธอต่อไปไม่ต้องห่วง 🎂🎈</p>
+    <button id="partyBtn">กุ๊งกิ๊งๆ 🎉</button>
+  </div>
+
+  <div class="confetti" id="confetti"></div>
+
+  <script>
+    const btn = document.getElementById('partyBtn');
+    const confettiRoot = document.getElementById('confetti');
+
+    function makePiece(x){
+      const el = document.createElement('div');
+      const size = Math.random()*10 + 6;
+      el.style.position = 'absolute';
+      el.style.left = x + 'px';
+      el.style.top = '-20px';
+      el.style.width = size + 'px';
+      el.style.height = (size * 0.6) + 'px';
+      el.style.opacity = Math.random()*0.9 + 0.6;
+      el.style.transform = 'rotate('+ (Math.random()*360) +'deg)';
+      el.style.background = ['#ff6b6b','#ffd93d','#6be29a','#6bb8ff','#c58bff'][Math.floor(Math.random()*5)];
+      el.style.borderRadius = '2px';
+      el.style.willChange = 'transform, top';
+      confettiRoot.appendChild(el);
+
+      const duration = Math.random()*1800 + 1600;
+      const endX = (Math.random()-0.5) * 400;
+      const endY = window.innerHeight + 40;
+      const start = performance.now();
+
+      function animate(t){
+        const p = (t - start) / duration;
+        if(p >= 1){ confettiRoot.removeChild(el); return; }
+        const ease = Math.pow(p,0.9);
+        el.style.top = (-20 + ease * (endY + 40)) + 'px';
+        el.style.left = (x + endX * ease) + 'px';
+        el.style.transform = 'rotate(' + (ease*720 + Math.random()*40) + 'deg)';
+        requestAnimationFrame(animate);
+      }
+      requestAnimationFrame(animate);
+    }
+
+    btn.addEventListener('click', () => {
+      for(let i=0;i<120;i++){
+        setTimeout(()=> makePiece(window.innerWidth * Math.random()), i*8);
+      }
+    });
+  </script>
+</body>
+</html>
